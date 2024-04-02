@@ -1,10 +1,13 @@
 import asyncio
+import random
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command, CommandStart
 from aiogram.types.input_file import FSInputFile
 import logging
 from dotenv import load_dotenv
-from os import getenv
+import os
+from os import getenv , listdir
 from random import choice
 
 load_dotenv()
@@ -22,18 +25,14 @@ async def message(message: types.Message):
 
 @dp.message(Command('pic'))
 async def send_pic(message: types.Message):
-    file = FSInputFile('image/test.jpg')
-    file1 = FSInputFile('image/test1.jpg')
-    lis1 = [file, file1]
-    random = choice(lis1)
-    await message.answer_photo(photo=random)
+    chosen = ('image/' + choice(['test1.jpg', "test.jpg"]))
+    file = FSInputFile(chosen)
+    await message.answer_photo(photo=file)
 
 @dp.message(Command('myinfo'))
 async def myinfo(message: types.Message):
-    photofolder = 'image'
-    photos = os.listdir(photofolder)
-    randomphoto = os.path.join(photofolder, choice(photos))
-    await message.answer_photo(photo=randomphoto)
+    photo1 = FSInputFile('image/test1.jpg')
+    await message.answer_photo(photo=photo1)
     await message.reply(f"I found you ) You're {message.from_user.first_name} , @{message.from_user.username} ,id:{message.from_user.id}")
 
 @dp.message(Command('help'))
