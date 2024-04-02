@@ -30,8 +30,10 @@ async def send_pic(message: types.Message):
 
 @dp.message(Command('myinfo'))
 async def myinfo(message: types.Message):
-    photo1 = FSInputFile("image/test1.jpg")
-    await message.answer_photo(photo=photo1)
+    photofolder = 'image'
+    photos = os.listdir(photofolder)
+    randomphoto = os.path.join(photofolder, choice(photos))
+    await message.answer_photo(photo=randomphoto)
     await message.reply(f"I found you ) You're {message.from_user.first_name} , @{message.from_user.username} ,id:{message.from_user.id}")
 
 @dp.message(Command('help'))
